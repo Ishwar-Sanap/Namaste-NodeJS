@@ -1,0 +1,24 @@
+{
+  "name": "mycircle",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [
+    "javascripts",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
+  "author": "Ishwar Sanap",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
