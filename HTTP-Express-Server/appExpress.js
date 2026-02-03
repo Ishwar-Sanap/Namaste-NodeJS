@@ -5,6 +5,29 @@ const express = require("express");
 // built on top of the Node.js HTTP module, Express simplifies the process of handling requests, routing, and middleware integration.
 //npm install express
 
+/*
+app.get()
+   -  It only handles GET requests.
+   -  It matches the exact path specified.
+   -  It does not support middleware functionality.
+
+   app.get("/hello", (req, res) => {
+  res.send("Hello ");
+});
+
+app.use() 
+   -  It supports all HTTP methods (GET, POST, PUT, DELETE, etc.).
+   -  It matches the path prefix, meaning it will handle requests that start with the specified path.
+   -  order of writing matters, it will execute in the order they are defined.
+   - It is commonly used for middleware functions that need to be applied to multiple routes.
+   - If you not write next() in the middleware, the request will be terminated there. no further routes will be processed.
+
+    app.use("/hello", (req, res) => {
+    res.send("Hello ");
+  });
+*/
+
+
 const app = express();
 
 const PORT = 8090;
