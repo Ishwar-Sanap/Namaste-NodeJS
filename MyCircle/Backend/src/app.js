@@ -4,9 +4,12 @@ const app = express();
 const User = require("./models/user");
 const { validateSignUp } = require("./utils/validate");
 const bcrypt = require("bcrypt"); // npm package to hash password..
+const cookieParser = require("cookie-parser");
+const { userAuth } = require("./middleware/auth");
 
 // It will work for every routes
 app.use(express.json()); //middleware to parse JSON data
+app.use(cookieParser()); // cookie-parser middleware to parse the cookie
 
 //NEVER trust on req.body data always sanitize the input and check the proper validations if everyting is fine
 // then only store the data into DB else throw an appropriate error..
@@ -45,11 +48,34 @@ app.post("/login", async (req, res) => {
     const user = await User.findOne({ emailID: emailID });
     if (!user) throw new Error("Invalid credentials");
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await user.validatePassword(password);
 
     if (!isValidPassword) throw new Error("Invalid credentials");
 
+    //If login credentials are correct then create JWT(JSON Web Token) token and send to the client
+    // so when client make any subsequest request token will be used to autheticate the valid client requests..
+    const jwtToken = user.getJWT(); //getJWT() define in use schema for refactoring. we can also write here..
+    res.cookie("token", jwtToken); //send  jsonWebToken to client
+
     res.send("Login successfully");
+  } catch (err) {
+    res.status(400).send("Error : " + err.message);
+  }
+});
+
+app.get("/profile", userAuth, async (req, res) => {
+  try {
+    const user = req.user; // from userAuth middleware user is added into req object..
+    res.send(user);
+  } catch (err) {
+    res.status(400).send("Error : " + err.message);
+  }
+});
+
+app.post("/sendConnectionRequest", userAuth, async (req, res) => {
+  try {
+    const user = req.user; // from userAuth middleware user is added into req object..
+    res.send(user.firstName + " send the connection request");
   } catch (err) {
     res.status(400).send("Error : " + err.message);
   }

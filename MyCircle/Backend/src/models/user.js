@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator"); //Using validator library for data validations
-
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt"); // npm package to hash password..
 //https://mongoosejs.com/docs/schematypes.html
 
 const userSchema = new mongoose.Schema(
@@ -61,4 +62,21 @@ const userSchema = new mongoose.Schema(
   },
 );
 
+userSchema.methods.getJWT = function () {
+  //Not in userSchema methods always use noraml function, since we required this
+  // and this can't be used in arrow function
+  const user = this;
+  const token = jwt.sign({ userID: user._id }, "SecreateCode@123", {
+    expiresIn: "1d",
+  }); // userID is encoded and stored the the jwtToken string
+
+  return token;
+};
+
+userSchema.methods.validatePassword = async function (userEnterPassword) {
+  const user = this;
+  const hashPassword = user.password;
+  const isValidPassword = await bcrypt.compare(userEnterPassword, hashPassword);
+  return isValidPassword;
+};
 module.exports = mongoose.model("User", userSchema);
