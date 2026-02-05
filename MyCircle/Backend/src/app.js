@@ -6,6 +6,7 @@ const User = require("./models/user");
 // It will work for every routes
 app.use(express.json()); //middleware to parse JSON data
 
+//By defulat schema validatino works only for post method
 app.post("/signup", async (req, res) => {
   console.log(req.body);
   try {
@@ -13,7 +14,7 @@ app.post("/signup", async (req, res) => {
     await userObj.save(); //saves this document by inserting a new document into the database
     res.send("User info saved.");
   } catch (err) {
-    res.status(400).send("Failed to save user info.");
+    res.status(400).send("Failed to save user info, " + err.message);
   }
 });
 
@@ -28,6 +29,7 @@ app.get("/feed", async (req, res) => {
 });
 
 //Update the document
+//while updating you have to explictily set runValidators option true
 app.patch("/user", async (req, res) => {
   try {
     const data = req.body;
@@ -37,20 +39,24 @@ app.patch("/user", async (req, res) => {
     // await User.findByIdAndUpdate(req.body.userID, data);
 
     // passing options to get the updated document in response
-    // const updatedUser = await User.findByIdAndUpdate(req.body.userID , data, {returnDocument : "after"});
+    const updatedUser = await User.findByIdAndUpdate(req.body.userID, data, {
+      returnDocument: "after",
+      runValidators: true,
+    });
     // console.log("Updated User :", updatedUser);
 
     //updating user based on emailID
 
-    const updateUser = await User.findOneAndUpdate(
-      { emailID: req.body.emailID },
-      data,
-      { returnDocument: "after" },
-    );
-    console.log(updateUser);
+    // const updateUser = await User.findOneAndUpdate(
+    //   { emailID: req.body.emailID },
+    //   data,
+    //   { returnDocument: "after" },
+    // );
+    // console.log(updateUser);
+
     res.send("user details updated");
   } catch (err) {
-    res.status(400).send("Something went wrong try again..");
+    res.status(400).send("Update failed," + err.message);
   }
 });
 
