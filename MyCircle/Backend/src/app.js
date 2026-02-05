@@ -8,9 +8,14 @@ app.use(express.json()); //middleware to parse JSON data
 
 //By defulat schema validatino works only for post method
 app.post("/signup", async (req, res) => {
-  console.log(req.body);
+  const allowFields = ["firstName", "lastName", "password", "emailID"];
   try {
-    const userObj = new User(req.body);
+    const data = req.body;
+    const isSignupAllowed = Object.keys(data).every((k) =>
+      allowFields.includes(k),
+    );
+    if (!isSignupAllowed) throw new Error("signup not allowed.");
+    const userObj = new User(data);
     await userObj.save(); //saves this document by inserting a new document into the database
     res.send("User info saved.");
   } catch (err) {
@@ -30,16 +35,26 @@ app.get("/feed", async (req, res) => {
 
 //Update the document
 //while updating you have to explictily set runValidators option true
-app.patch("/user", async (req, res) => {
+app.patch("/user/:userID", async (req, res) => {
+  //Allowing user to update only certain fields :
+  const allowUpdates = ["profilePhotoUrl", "skills", "password", "about"];
   try {
     const data = req.body;
+    const userID = req.params.userID;
+    const isUpdateAllowed = Object.keys(data).every((k) =>
+      allowUpdates.includes(k),
+    );
+    if (!isUpdateAllowed) throw new Error("update not allowed.");
+    if (data?.skills.length > 10)
+      throw new Error("can't update more than 10 skills");
+
     // in data we have extra field userID but mongoose will ignore that field and update only the fields that are present in the schema.
 
     // await User.findOneAndUpdate({ _id: req.body.userID }, data);
     // await User.findByIdAndUpdate(req.body.userID, data);
 
     // passing options to get the updated document in response
-    const updatedUser = await User.findByIdAndUpdate(req.body.userID, data, {
+    const updatedUser = await User.findByIdAndUpdate(userID, data, {
       returnDocument: "after",
       runValidators: true,
     });

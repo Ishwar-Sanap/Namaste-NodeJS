@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator"); //Using validator library for data validations
 
 //https://mongoosejs.com/docs/schematypes.html
 
@@ -22,6 +23,9 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       required: true,
       unique: true,
+      validate(value) {
+        if (!validator.isEmail(value)) throw new Error("Invalid email address");
+      },
     },
     password: {
       type: String,
@@ -41,9 +45,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       default:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      validate(value) {
+        if (!validator.isURL(value)) throw new Error("Photo url is not valid");
+      },
     },
     skills: {
       type: [String],
+    },
+    about: {
+      type: String,
     },
   },
   {
