@@ -2,24 +2,56 @@ const express = require("express");
 const { connectDB } = require("./config/database");
 const app = express();
 const User = require("./models/user");
+const { validateSignUp } = require("./utils/validate");
+const bcrypt = require("bcrypt"); // npm package to hash password..
 
 // It will work for every routes
 app.use(express.json()); //middleware to parse JSON data
 
+//NEVER trust on req.body data always sanitize the input and check the proper validations if everyting is fine
+// then only store the data into DB else throw an appropriate error..
+
 //By defulat schema validatino works only for post method
 app.post("/signup", async (req, res) => {
-  const allowFields = ["firstName", "lastName", "password", "emailID"];
   try {
     const data = req.body;
-    const isSignupAllowed = Object.keys(data).every((k) =>
-      allowFields.includes(k),
-    );
-    if (!isSignupAllowed) throw new Error("signup not allowed.");
-    const userObj = new User(data);
+
+    //validate the data
+    validateSignUp(data);
+    const { firstName, lastName, emailID, password } = data;
+
+    //Encrypt the password and then stored into DB
+    const hashPassword = await bcrypt.hash(password, 10); // 10 is saltRounds
+
+    const userObj = new User({
+      firstName,
+      lastName,
+      emailID,
+      password: hashPassword,
+    });
+
     await userObj.save(); //saves this document by inserting a new document into the database
     res.send("User info saved.");
   } catch (err) {
-    res.status(400).send("Failed to save user info, " + err.message);
+    res.status(400).send("Error : " + err.message);
+  }
+});
+
+//Login API
+app.post("/login", async (req, res) => {
+  try {
+    const { emailID, password } = req.body;
+
+    const user = await User.findOne({ emailID: emailID });
+    if (!user) throw new Error("Invalid credentials");
+
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    if (!isValidPassword) throw new Error("Invalid credentials");
+
+    res.send("Login successfully");
+  } catch (err) {
+    res.status(400).send("Error : " + err.message);
   }
 });
 
