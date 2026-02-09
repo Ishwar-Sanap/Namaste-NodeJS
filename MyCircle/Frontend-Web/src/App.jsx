@@ -1,13 +1,28 @@
-import './App.css'
+import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router";
+import Body from "./components/Body";
+import Login from "./components/Login";
+import Profile from "./components/Profile";
+import appStore from "./store/appStore";
+import {Provider} from "react-redux"
+import Feed from "./components/Feed";
 
 function App() {
   return (
-    <>
-    <h1 className='text-3xl text-center bg-red-400 m-2'>MyCircle </h1>
-    <button class="btn btn-accent">Button</button>
-
-    </>
-  )
+    <div>
+      <Provider store={appStore}>
+        <BrowserRouter basename="/">
+          <Routes>
+            <Route path="/" element={<Body />}>
+              <Route path="/" element={<Feed/>} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </Provider>
+    </div>
+  );
 }
 
-export default App
+export default App;
