@@ -6,11 +6,15 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
+const cors = require("cors")
 
 // It will work for every routes
 app.use(express.json()); //middleware to parse JSON data
 app.use(cookieParser()); // cookie-parser middleware to parse the cookie
-
+app.use(cors({
+  origin : "http://localhost:5173",
+  credentials : true
+}))
 app.use("/", authRouter)
 app.use("/", profileRouter)
 app.use("/",requestRouter)

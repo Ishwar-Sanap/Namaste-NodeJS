@@ -51,7 +51,7 @@ authRouter.post("/login", async (req, res) => {
     const jwtToken = user.getJWT(); //getJWT() define in use schema for refactoring. we can also write here..
     res.cookie("token", jwtToken); //send  jsonWebToken to client
 
-    res.send("Login successfully");
+    res.send(user);
   } catch (err) {
     res.status(400).send("Error : " + err.message);
   }
