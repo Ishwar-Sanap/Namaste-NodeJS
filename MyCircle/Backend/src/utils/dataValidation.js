@@ -7,6 +7,8 @@ const validateSignUp = (data) => {
   if (!validate.isEmail(emailID)) throw new Error("Invalid email id");
   if (!validate.isStrongPassword(password))
     throw new Error("Enter strong password");
+
+  if (password.length > 20) throw new Error("Password is to large");
 };
 
 const validateEditRequestData = (data) => {

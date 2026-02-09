@@ -8,6 +8,7 @@ import { BASE_URL } from "../utils/constants";
 const Login = () => {
   const [email, setEmail] = useState("elon@gmail.com");
   const [password, setPassword] = useState("Elon@123");
+  const [errorMsg, setErrorMsg] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,13 +21,14 @@ const Login = () => {
           emailID: email,
           password: password,
         },
-        { withCredentials: true },
+        { withCredentials: true }, // withCredentials is used to send the cookie which is set by the server in response to the login request.
+        // so when client make any subsequent request cookie will be used to authenticate the valid client requests
       );
 
       dispatch(addUser(res.data));
       navigate("/");
     } catch (err) {
-      console.log(err);
+      setErrorMsg(err?.response?.data || "Something went wrong");
     }
   };
   return (
@@ -50,6 +52,7 @@ const Login = () => {
         required
         onChange={(e) => setPassword(e.target.value)}
       />
+      <p className="textarea-md text-red-500">{errorMsg}</p>
       <button
         type="submit"
         className="btn btn-neutral mt-4"

@@ -35,7 +35,7 @@ profileRouter.patch("/profile/edit/password", userAuth, async (req, res) => {
     const oldPassword = req.body?.password;
     const newPassword = req.body?.newPassword;
     if(!oldPassword || !newPassword) throw new Error("Invalid inputs");
-
+    if(newPassword.length > 20) throw new Error("Password is to large");
     const isValidPassword = await loggedInUser.validatePassword(oldPassword);
     if (!isValidPassword) throw new Error("Invalid password");
 
