@@ -20,7 +20,7 @@ const Body = () => {
 
       dispatch(addUser(resp.data));
     } catch (err) {
-      if (err.status === 401) navigate("/login");
+       navigate("/login");
     }
   };
 
