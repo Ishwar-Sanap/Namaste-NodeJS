@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../store/userSlice";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
@@ -45,14 +45,17 @@ const Login = () => {
 
       <label className="label">Password</label>
       <input
-        type="password  mb-3"
-        className="input"
+        type="password"
+        className="input mb-3"
         placeholder="Password"
         value={password}
         required
         onChange={(e) => setPassword(e.target.value)}
       />
       <p className="textarea-md text-red-500">{errorMsg}</p>
+      <p>
+        Don't have an account ? <Link to={"/signup"}>SignUp</Link>
+      </p>
       <button
         type="submit"
         className="btn btn-neutral mt-4"
