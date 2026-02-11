@@ -6,31 +6,17 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../store/userSlice";
 
 const EditProfile = ({ user }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [profilePhotoUrl, setProfilePhotoUrl] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-  const [about, setAbout] = useState("");
-  const [skills, setSkills] = useState([]);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName || "");
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState(user.profilePhotoUrl);
+  const [age, setAge] = useState(user.age || "");
+  const [gender, setGender] = useState(user.gender || "Male");
+  const [about, setAbout] = useState(user.about || "");
+  const [skills, setSkills] = useState(user.skills || []);
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (user) {
-      setFirstName(user.firstName || "");
-      setLastName(user.lastName || "");
-      setProfilePhotoUrl(user.profilePhotoUrl || "");
-      setAge(user.age || "");
-      setGender(user.gender || "");
-      setAbout(user.about || "");
-      setSkills(user.skills || []);
-    }
-  }, [user]);
-
-  useEffect(() => {}, [user]);
 
   const handleSaveProfile = async () => {
     setError("");
@@ -92,8 +78,8 @@ const EditProfile = ({ user }) => {
           <label className="label">Gender :</label>
           <select
             className="select appearance-none"
-            value={gender}
             onChange={(e) => setGender(e.target.value)}
+            value={gender}
           >
             <option value={"Male"}>Male</option>
             <option value={"Female"}>Female</option>

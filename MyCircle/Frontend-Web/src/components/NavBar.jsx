@@ -13,11 +13,10 @@ const NavBar = () => {
       const res = axios.post(BASE_URL + "/logout", null, {
         withCredentials: true,
       });
-      
+
       dispatch(removeUser());
-      
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
   };
   return (
@@ -56,7 +55,10 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li>
-                  <a>Settings</a>
+                  <Link to={"/connections"}>Connections</Link>
+                </li>
+                <li>
+                  <Link to={"/requests"}>Requests</Link>
                 </li>
                 <li>
                   <Link to={"/login"} onClick={handleLogOut}>

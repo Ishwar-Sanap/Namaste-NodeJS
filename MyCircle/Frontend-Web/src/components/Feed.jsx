@@ -9,8 +9,6 @@ const Feed = () => {
   const feed = useSelector((state) => state.feed);
   const dispatch = useDispatch();
   const getFeedData = async () => {
-    if (feed) return;
-
     try {
       const res = await axios.get(BASE_URL + "/user/feed", {
         withCredentials: true,
@@ -28,7 +26,10 @@ const Feed = () => {
   return (
     feed && (
       <div>
-        <UserCard user={feed[1]} />
+        {
+          feed.map(user =>  <UserCard key={user._id} user={user} />)
+        }
+       
       </div>
     )
   );
