@@ -1,6 +1,6 @@
 import React from "react";
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, sendRequest }) => {
   const { firstName, lastName, profilePhotoUrl, about } = user;
   return (
     <div>
@@ -9,12 +9,24 @@ const UserCard = ({ user }) => {
           <img src={profilePhotoUrl} alt="Profile pic" className="rounded-xl" />
         </figure>
         <div className="card-body items-center text-center -mt-4">
-          <h2 className="card-title text-2xl">{firstName + " " +  lastName}</h2>
+          <h2 className="card-title text-2xl">{firstName + " " + lastName}</h2>
           <p className="textarea-lg">{about}</p>
-          <div className="card-actions">
-            <button className="btn btn-primary mx-2">Ignored</button>
-            <button className="btn btn-secondary mx-2">Interested</button>
-          </div>
+          {sendRequest && (
+            <div className="card-actions">
+              <button
+                className="btn btn-primary mx-2"
+                onClick={() => sendRequest(user._id, "ignored")}
+              >
+                Ignore
+              </button>
+              <button
+                className="btn btn-secondary mx-2"
+                onClick={() => sendRequest(user._id, "interested")}
+              >
+                Interested
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

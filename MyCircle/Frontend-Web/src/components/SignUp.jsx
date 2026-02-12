@@ -38,7 +38,6 @@ const SignUp = () => {
       }, 3000);
       navigate("/login");
     } catch (err) {
-      console.log(err)
       setErrorMsg(err?.response?.data || "Something went wrong");
     }
   };
@@ -95,7 +94,7 @@ const SignUp = () => {
       </p>
       <button
         type="submit"
-        className="btn btn-neutral mt-4"
+        className="btn btn-primary mt-4"
         onClick={handleSignUp}
       >
         SignUp

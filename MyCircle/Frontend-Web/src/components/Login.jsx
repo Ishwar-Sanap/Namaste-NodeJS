@@ -6,8 +6,8 @@ import { Link, useNavigate } from "react-router";
 import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
-  const [email, setEmail] = useState("elon@gmail.com");
-  const [password, setPassword] = useState("Elon@123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ const Login = () => {
       </p>
       <button
         type="submit"
-        className="btn btn-neutral mt-4"
+        className="btn btn-primary mt-4"
         onClick={handleLogin}
       >
         Login
