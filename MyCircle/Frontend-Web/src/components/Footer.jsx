@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="footer sm:footer-horizontal  bg-base-300 text-neutral-content items-center p-4 mt-5">
-      <aside className="grid-flow-col items-center">
+      <aside className="grid-flow-col items-center ml-12">
         <svg
           width="36"
           height="36"
@@ -17,7 +17,7 @@ const Footer = () => {
         </svg>
         <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
       </aside>
-      <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+      <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end mr-12">
         <a>
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -20,7 +20,7 @@ const Body = () => {
 
       dispatch(addUser(resp.data));
     } catch (err) {
-       navigate("/login");
+      navigate("/login");
     }
   };
 
@@ -29,9 +29,11 @@ const Body = () => {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <NavBar />
-      <Outlet />
+      <div className="grow">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );
