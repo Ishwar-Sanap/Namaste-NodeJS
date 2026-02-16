@@ -29,9 +29,8 @@ const Requests = () => {
       );
 
       dispatch(removeRequest(requestId));
-
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
 
@@ -41,11 +40,13 @@ const Requests = () => {
 
   if (!requestsRecived || requestsRecived.length === 0)
     return (
-      <h1 className="text-2xl font-bold text-center my-5">No Requests found</h1>
+      <h1 className="text-xl md:text-2xl font-bold text-center my-5">No Requests found</h1>
     );
   return (
-    <div className="mx-auto w-4/10 my-5">
-      <h1 className="text-2xl font-bold text-center">Requests Recieved</h1>
+    <div className="mx-auto md:w-1/2  my-5">
+      <h1 className=" font-bold text-center text-xl md:text-2xl">
+        Requests Recieved
+      </h1>
       <ul className="list bg-base-200 rounded-box shadow-md mt-3">
         {requestsRecived.map((request) => {
           const { firstName, lastName, profilePhotoUrl, about } =
@@ -56,14 +57,14 @@ const Requests = () => {
                 <img className="size-10 rounded-box" src={profilePhotoUrl} />
               </div>
               <div className="flex items-center">
-                <div className="text-xl font-bold">
+                <div className="text-lg md:text-xl font-bold">
                   {firstName + " " + (lastName ? lastName : "")}
                 </div>
               </div>
               {about && <p className="list-col-wrap ">{about}</p>}
               <button
                 className="btn btn-primary"
-                onClick={() => revieweRequest(request?._id,"accepted")}
+                onClick={() => revieweRequest(request?._id, "accepted")}
               >
                 Accept
               </button>

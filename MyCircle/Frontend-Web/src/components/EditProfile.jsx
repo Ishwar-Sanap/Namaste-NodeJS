@@ -42,8 +42,8 @@ const EditProfile = ({ user }) => {
 
   return (
     user && (
-      <div className="flex justify-between mx-auto w-[50%]">
-        <div className="fieldset bg-base-300 border-base-300 rounded-box w-xs border p-4 mt-5 ">
+      <div className="md:flex justify-between mx-auto xl:w-[50%]">
+        <div className="fieldset bg-base-300 border-base-300 rounded-box w-xs border p-4 mt-5 mx-auto">
           <legend className="fieldset-legend text-lg">Edit profile</legend>
 
           <label className="label">First Name :</label>

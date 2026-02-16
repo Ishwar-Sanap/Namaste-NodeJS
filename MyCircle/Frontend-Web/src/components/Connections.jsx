@@ -28,12 +28,12 @@ const Connections = () => {
 
   if (connectionsData.length === 0)
     return (
-      <h1 className="text-2xl font-bold text-center my-5">No connections found</h1>
+      <h1 className="text-xl md:text-2xl font-bold text-center my-5">No connections found</h1>
     );
 
   return (
-    <div className="mx-auto w-4/10 my-5">
-      <h1 className="text-2xl font-bold text-center">Connections</h1>
+    <div className="mx-auto md:w-1/2 my-5">
+      <h1 className="text-xl md:text-2xl font-bold text-center">Connections</h1>
       <ul className="list bg-base-200 rounded-box shadow-md mt-3">
         {connectionsData.map((conn) => {
           const { firstName, lastName, profilePhotoUrl, about } = conn;
